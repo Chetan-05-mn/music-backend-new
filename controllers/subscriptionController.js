@@ -1,7 +1,8 @@
 import {
   PutCommand,
   ScanCommand,
-  DeleteCommand
+  DeleteCommand,
+  UpdateCommand
 } from "@aws-sdk/lib-dynamodb";
 
 import { docClient } from "../config/db.js";
@@ -158,6 +159,26 @@ export const upgradeSubscription = async (
   try {
 
     const { email } = req.body;
+
+    //Update user table
+    await docClient.send(
+
+      new UpdateCommand({
+
+        TableName: "Users",
+
+        Key: {
+          email: email
+        },
+
+        UpdateExpression:
+          "SET subscription = :sub",
+
+        ExpressionAttributeValues: {
+          ":sub": "premium"
+        }
+      })
+    );
 
     res.json({
       message: "Premium upgraded successfully",

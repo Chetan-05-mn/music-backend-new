@@ -37,7 +37,8 @@ export const registerUser = async (req, res) => {
         Item: {
           email,
           user_name: username,
-          password
+          password,
+          subscription: "free"
         }
       })
     );
@@ -87,7 +88,8 @@ export const loginUser = async (req, res) => {
     res.json({
       message: "Login successful",
       user_name: user.user_name,
-      email: user.email
+      email: user.email,
+      subscription: user.subscription
     });
 
   } catch (err) {
